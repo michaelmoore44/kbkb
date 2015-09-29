@@ -1,0 +1,14 @@
+kbkb.bin
+kbkb.map
+kbkb.elf
+kbkb.hex
+kbkb.out
+GPATH
+GRTAGS
+GSYMS
+GTAGS
+tags
+obj
+project
+*.o
+*.lst
