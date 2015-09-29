@@ -3,6 +3,7 @@ kbkb.map
 kbkb.elf
 kbkb.hex
 kbkb.out
+kbkb.dfu
 GPATH
 GRTAGS
 GSYMS
@@ -12,3 +13,4 @@ obj
 project
 *.o
 *.lst
+*~

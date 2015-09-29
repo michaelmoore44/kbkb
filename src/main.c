@@ -82,24 +82,24 @@ int main(void)
   /* Configure the system clock to 84 MHz */
   SystemClock_Config();
   
-  /* -1- Enable GPIOA Clock (to be able to program the configuration registers) */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
+  /* -1- Enable GPIOD Clock (to be able to program the configuration registers) */
+  __HAL_RCC_GPIOD_CLK_ENABLE();
   
   /* -2- Configure PA05 IO in output push-pull mode to
          drive external LED */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Pin = GPIO_PIN_4;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct); 
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* -3- Toggle PA05 IO in an infinite loop */  
   while (1)
   {
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_4);
     
     /* Insert delay 100 ms */
-    HAL_Delay(100);
+    HAL_Delay(200);
   }
 }
 
