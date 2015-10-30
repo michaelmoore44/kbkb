@@ -10,7 +10,6 @@ GSYMS
 GTAGS
 tags
 obj
-project
 *.o
 *.lst
 *~
