@@ -25,7 +25,7 @@ CP   = $(CCPREFIX)objcopy
 HEX  = $(CP) -O ihex
 BIN  = $(CP) -O binary -S
 
-OPENOCD = openocd-0.9.0
+OPENOCD = openocd
 
 MCU  = cortex-m4
  
@@ -43,10 +43,15 @@ PROJECT        = kbkb
 SRC  = ./src/main.c
 SRC += ./src/stm32f4xx_it.c
 SRC += ./src/system_stm32f4xx.c
+SRC += ./src/buffer.c
+SRC += ./src/terminal.c
+SRC += ./src/stm32f4xx_hal_msp.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_cortex.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_gpio.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_rcc.c
+SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_uart.c
+SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_dma.c
 
 # List assembly startup source file here
 STARTUP = ./src/startup_stm32f405xx.s
@@ -114,9 +119,9 @@ all: $(OBJS) $(PROJECT).elf  $(PROJECT).hex $(PROJECT).bin
 	$(BIN)  $< $@
 	
 
-flash: $(PROJECT).bin
+program: $(PROJECT).bin
 	@echo "Flash Programming with OpenOCD"
-	$(OPENOCD) -f interface\ftdi\olimex-arm-usb-tiny-h.cfg -f target\stm32f3x.cfg -c "init" -c "reset halt" -c "sleep 100" -c "wait_halt 2" -c "flash write_image erase $(PROJECT).bin 0x08000000" -c "sleep 100" -c "verify_image $(PROJECT).bin 0x08000000" -c "sleep 100" -c "reset run" -c shutdown
+	$(OPENOCD) -f interface\stlink-v2.cfg -f target\stm32f4x.cfg -c "init" -c "reset halt" -c "sleep 100" -c "wait_halt 2" -c "flash write_image erase $(PROJECT).bin 0x08000000" -c "sleep 100" -c "verify_image $(PROJECT).bin 0x08000000" -c "sleep 100" -c "reset run" -c shutdown
 	@echo "Flash Programming Finished"
 	
 erase:
