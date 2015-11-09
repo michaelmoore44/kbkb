@@ -45,6 +45,9 @@ SRC += ./src/stm32f4xx_it.c
 SRC += ./src/system_stm32f4xx.c
 SRC += ./src/buffer.c
 SRC += ./src/terminal.c
+SRC += ./src/usb_device.c
+SRC += ./src/usbd_conf.c
+SRC += ./src/usbd_desc.c
 SRC += ./src/stm32f4xx_hal_msp.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_cortex.c
@@ -52,6 +55,13 @@ SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_gpio.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_rcc.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_uart.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_dma.c
+SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_pcd.c
+SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_pcd_ex.c
+SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_ll_usb.c
+SRC += ./src/usb_core/usbd_core.c
+SRC += ./src/usb_core/usbd_ctlreq.c
+SRC += ./src/usb_core/usbd_hid.c
+SRC += ./src/usb_core/usbd_ioreq.c
 
 # List assembly startup source file here
 STARTUP = ./src/startup_stm32f405xx.s

@@ -100,6 +100,36 @@
 			<locationURI>PARENT-1-PROJECT_LOC/src/system_stm32f4xx.h</locationURI>
 		</link>
 		<link>
+			<name>usb_device.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_device.c</locationURI>
+		</link>
+		<link>
+			<name>usb_device.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_device.h</locationURI>
+		</link>
+		<link>
+			<name>usbd_conf.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usbd_conf.c</locationURI>
+		</link>
+		<link>
+			<name>usbd_conf.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usbd_conf.h</locationURI>
+		</link>
+		<link>
+			<name>usbd_desc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usbd_desc.c</locationURI>
+		</link>
+		<link>
+			<name>usbd_desc.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usbd_desc.h</locationURI>
+		</link>
+		<link>
 			<name>cmsis/arm_common_tables.h</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/src/cmsis/arm_common_tables.h</locationURI>
@@ -843,6 +873,61 @@
 			<name>stm32f4xx_hal_driver/stm32f4xx_ll_usb.h</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/src/stm32f4xx_hal_driver/stm32f4xx_ll_usb.h</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_conf_template.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_conf_template.c</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_conf_template.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_conf_template.h</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_core.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_core.c</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_core.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_core.h</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_ctlreq.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_ctlreq.c</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_ctlreq.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_ctlreq.h</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_def.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_def.h</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_hid.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_hid.c</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_hid.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_hid.h</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_ioreq.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_ioreq.c</locationURI>
+		</link>
+		<link>
+			<name>usb_core/usbd_ioreq.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/usb_core/usbd_ioreq.h</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

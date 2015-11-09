@@ -1,25 +1,21 @@
 /**
   ******************************************************************************
-  * @file    GPIO/GPIO_IOToggle/Inc/main.h
-  * @author  MCD Application Team
-  * @version V1.2.1
-  * @date    13-March-2015
-  * @brief   Header for main.c module
+  * @file           : USB_DEVICE
+  * @version        : v1.0_Cube
+  * @brief          : Header for usb_device file.
   ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * COPYRIGHT(c) 2015 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
+  * 1. Redistributions of source code must retain the above copyright notice,
+  * this list of conditions and the following disclaimer.
+  * 2. Redistributions in binary form must reproduce the above copyright notice,
+  * this list of conditions and the following disclaimer in the documentation
+  * and/or other materials provided with the distribution.
+  * 3. Neither the name of STMicroelectronics nor the names of its contributors
+  * may be used to endorse or promote products derived from this software
+  * without specific prior written permission.
   *
   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -33,18 +29,36 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
+*/
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __usb_device_H
+#define __usb_device_H
+#ifdef __cplusplus
+ extern "C" {
+#endif
+
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f4xx.h"
+#include "stm32f4xx_hal.h"
+#include "usb_core/usbd_def.h"
+
+extern USBD_HandleTypeDef hUsbDeviceFS;
+
+/* USB_Device init function */
+void MX_USB_DEVICE_Init(void);
+void keyboard_send(uint8_t* keys, uint8_t length);
+
+#ifdef __cplusplus
+}
+#endif
+#endif /*__usb_device_H */
+
+/**
+  * @}
   */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H
-#define __MAIN_H
-
-#include "stm32f4xx_hal.h"
-#include "usb_core/usbd_core.h"
-#include "usbd_desc.h"
-#include "usb_core/usbd_hid.h"
-#include "common.h"
-
-#endif /* __MAIN_H */
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
