@@ -22,6 +22,7 @@ CC   = $(CCPREFIX)gcc
 AS   = $(CCPREFIX)gcc -x assembler-with-cpp
 SIZE = $(CCPREFIX)size
 CP   = $(CCPREFIX)objcopy
+GDB  = $(CCPREFIX)gdb
 HEX  = $(CP) -O ihex
 BIN  = $(CP) -O binary -S
 
@@ -135,8 +136,14 @@ program: $(PROJECT).bin
 	@echo "Flash Programming Finished"
 	
 erase:
-	$(OPENOCD) -f interface\ftdi\olimex-arm-usb-tiny-h.cfg -f target\stm32f3x.cfg -c "init" -c "reset halt" -c "sleep 100" -c "stm32f3x mass_erase 0" -c "sleep 100" -c shutdown 
-		
+	$(OPENOCD) -f interface\stlink-v2.cfg -f target\stm32f4x.cfg -c "init" -c "reset halt" -c "sleep 100" -c "stm32f3x mass_erase 0" -c "sleep 100" -c shutdown 
+
+oocdserver:
+	$(OPENOCD) -f interface\stlink-v2.cfg -f target\stm32f4x.cfg -c "init" -c "halt" -c "reset halt"
+
+oocddbg:
+	$(GDB) --eval-command="target remote localhost:3333" $(PROJECT).elf
+	
 clean:
 	-rm -rf $(OBJS)
 	-rm -rf $(PROJECT).elf
