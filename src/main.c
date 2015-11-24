@@ -1,5 +1,5 @@
 #include "main.h"
-//#include "terminal.h"
+#include "terminal.h"
 #include "keycode.h"
 #include "usb_device.h"
 
@@ -27,8 +27,8 @@ int main(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  //term_init();
-  //print("KBKB Terminal Initialized\r\n");
+  term_init();
+  print("KBKB Terminal Initialized\r\n");
   HAL_Delay(10);
 
   MX_USB_DEVICE_Init();
@@ -39,12 +39,26 @@ int main(void)
     HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_4);
 
     /* Insert delay 100 ms */
-    HAL_Delay(4000);
-    keys[1] = KC_A;
-    keyboard_send(keys, 1);
+    keys[0] = 0x00;
+    keys[1] = 0x00;
+    keys[2] = KC_A;
+    keys[3] = KC_NO;
+    keys[4] = KC_NO;
+    keys[5] = KC_NO;
+    keys[6] = KC_NO;
+    keys[7] = KC_NO;
+    keyboard_send(keys, 8);
     HAL_Delay(15);
-    keys[1] = KC_NO;
-    keyboard_send(keys, 1);
+    keys[0] = 0x00;
+    keys[1] = 0x00;
+    keys[2] = KC_NO;
+    keys[3] = KC_NO;
+    keys[4] = KC_NO;
+    keys[5] = KC_NO;
+    keys[6] = KC_NO;
+    keys[7] = KC_NO;
+    keyboard_send(keys, 8);
+    HAL_Delay(4000);
   }
 }
 
