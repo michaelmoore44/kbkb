@@ -55,9 +55,9 @@ void MX_USB_DEVICE_Init(void)
 }
 
 /* init function */
-void keyboard_send(uint8_t* keys, uint8_t length)
+void usb_send(uint8_t* buf, uint8_t length)
 {
-    USBD_HID_SendReport(&hUsbDeviceFS, keys, length);
+    USBD_HID_SendReport(&hUsbDeviceFS, buf, length);
 }
 /**
   * @}

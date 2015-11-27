@@ -45,6 +45,7 @@ SRC  = ./src/main.c
 SRC += ./src/stm32f4xx_it.c
 SRC += ./src/system_stm32f4xx.c
 SRC += ./src/buffer.c
+SRC += ./src/keys.c
 SRC += ./src/terminal.c
 SRC += ./src/usb_device.c
 SRC += ./src/usbd_conf.c

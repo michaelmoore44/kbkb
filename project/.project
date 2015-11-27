@@ -210,6 +210,16 @@
 			<locationURI>PARENT-1-PROJECT_LOC/src/common.h</locationURI>
 		</link>
 		<link>
+			<name>src/keys.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/keys.c</locationURI>
+		</link>
+		<link>
+			<name>src/keys.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/src/keys.h</locationURI>
+		</link>
+		<link>
 			<name>src/terminal.c</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/src/terminal.c</locationURI>

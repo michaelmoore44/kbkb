@@ -1,6 +1,7 @@
 #include "main.h"
 #include "terminal.h"
 #include "keycode.h"
+#include "keys.h"
 #include "usb_device.h"
 
 static GPIO_InitTypeDef  GPIO_InitStruct;
@@ -12,54 +13,53 @@ USBD_HandleTypeDef USBD_Device;
 
 int main(void)
 {
-  HAL_Init();
-  uint8_t keys[8];
+    HAL_Init();
+    uint8_t keys[8];
+    uint8_t i;
+    uint32_t j;
 
-  /* Configure the system clock to 84 MHz */
-  SystemClock_Config();
+    /* Configure the system clock to 84 MHz */
+    SystemClock_Config();
 
-  /* -1- Enable GPIOD Clock (to be able to program the configuration registers) */
-  __HAL_RCC_GPIOD_CLK_ENABLE();
+    /* -1- Enable GPIOD Clock (to be able to program the configuration registers) */
+    __HAL_RCC_GPIOD_CLK_ENABLE();
 
-  GPIO_InitStruct.Pin = GPIO_PIN_4;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+    GPIO_InitStruct.Pin = GPIO_PIN_4;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
+    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  term_init();
-  print("KBKB Terminal Initialized\r\n");
-  HAL_Delay(10);
+    term_init();
+    print("KBKB Terminal Initialized\r\n");
+    HAL_Delay(2000);
 
-  MX_USB_DEVICE_Init();
+    MX_USB_DEVICE_Init();
 
-  /* -3- Toggle PA05 IO in an infinite loop */
-  while (1)
-  {
-    HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_4);
+    keys_init();
 
-    /* Insert delay 100 ms */
-    keys[0] = 0x00;
-    keys[1] = 0x00;
-    keys[2] = KC_A;
-    keys[3] = KC_NO;
-    keys[4] = KC_NO;
-    keys[5] = KC_NO;
-    keys[6] = KC_NO;
-    keys[7] = KC_NO;
-    keyboard_send(keys, 8);
-    HAL_Delay(15);
-    keys[0] = 0x00;
-    keys[1] = 0x00;
-    keys[2] = KC_NO;
-    keys[3] = KC_NO;
-    keys[4] = KC_NO;
-    keys[5] = KC_NO;
-    keys[6] = KC_NO;
-    keys[7] = KC_NO;
-    keyboard_send(keys, 8);
-    HAL_Delay(4000);
-  }
+    i = 0;
+    j = 0;
+
+    /* -3- Toggle PA05 IO in an infinite loop */
+    while (1)
+    {
+        keys_scan();
+        if(i >= 10) {
+            keys_translate(keys);
+            usb_send(keys, 8);
+            i = 0;
+        }
+
+        if(j >= 1000) {
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_4);
+            j = 0;
+        }
+
+        HAL_Delay(1);
+        ++i;
+        ++j;
+    }
 }
 
 

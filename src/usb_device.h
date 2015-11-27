@@ -46,7 +46,7 @@ extern USBD_HandleTypeDef hUsbDeviceFS;
 
 /* USB_Device init function */
 void MX_USB_DEVICE_Init(void);
-void keyboard_send(uint8_t* keys, uint8_t length);
+void usb_send(uint8_t* buf, uint8_t length);
 
 #ifdef __cplusplus
 }
