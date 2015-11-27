@@ -42,6 +42,8 @@
 /* USB Device Core handle declaration */
 USBD_HandleTypeDef hUsbDeviceFS;
 
+uint8_t prev_buf[8];
+
 /* init function */
 void MX_USB_DEVICE_Init(void)
 {
@@ -57,7 +59,14 @@ void MX_USB_DEVICE_Init(void)
 /* init function */
 void usb_send(uint8_t* buf, uint8_t length)
 {
-    USBD_HID_SendReport(&hUsbDeviceFS, buf, length);
+    int val;
+
+    val =  memcmp(buf, prev_buf, 8);
+    if(val) {
+        USBD_HID_SendReport(&hUsbDeviceFS, buf, length);
+        memcpy(prev_buf, buf, 8);
+    }
+//        USBD_HID_SendReport(&hUsbDeviceFS, buf, length);
 }
 /**
   * @}
