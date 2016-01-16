@@ -417,6 +417,7 @@ uint8_t USBD_HID_SendReport     (USBD_HandleTypeDef  *pdev,
 
   if (pdev->dev_state == USBD_STATE_CONFIGURED )
   {
+#warning remove this dead code
     //if(hhid->state == HID_IDLE)
     //{
       hhid->state = HID_BUSY;

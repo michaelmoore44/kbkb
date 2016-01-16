@@ -12,7 +12,7 @@
 
 static uint8_t term_data[TX_BUF_SIZE];
 
-UART_HandleTypeDef Uart_Handle;
+static UART_HandleTypeDef Uart_Handle;
 
 static buffer_t tx_buf;
 static uint8_t  tx_buf_data[TX_BUF_SIZE];
@@ -29,19 +29,6 @@ void term_init(void)
 	rx_buf.buff = rx_buf_data;
 	rx_buf.size = RX_BUF_SIZE;
 	buffer_init(&rx_buf);
-
-//
-//	USART1->CR1 &= ~USART_CR1_UE;
-//
-//	USART1->BRR = 375;
-//
-//	USART1->CR1 |= (USART_CR1_TXEIE | USART_CR1_RXNEIE);
-//
-//	USART1->CR1 |= USART_CR1_UE;
-//
-//	USART1->CR1 |= (USART_CR1_TE | USART_CR1_RE);
-//
-//	USART1->CR1 |= USART_CR1_UE;
 
     Uart_Handle.Instance          = USART1;
 

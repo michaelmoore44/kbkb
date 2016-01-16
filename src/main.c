@@ -1,4 +1,5 @@
 #include "main.h"
+#include "b2b_comm.h"
 #include "terminal.h"
 #include "keycode.h"
 #include "keys.h"
@@ -11,6 +12,14 @@ static void Error_Handler(void);
 
 USBD_HandleTypeDef USBD_Device;
 
+enum {
+    BOARD_NONE,
+    MASTER_BOARD,
+    SLAVE_BOARD,
+};
+
+uint8_t board;
+
 int main(void)
 {
     HAL_Init();
@@ -21,6 +30,9 @@ int main(void)
     /* Configure the system clock to 84 MHz */
     SystemClock_Config();
 
+    //delay at startup
+    HAL_Delay(1000);
+
     /* -1- Enable GPIOD Clock (to be able to program the configuration registers) */
     __HAL_RCC_GPIOD_CLK_ENABLE();
 
@@ -30,13 +42,37 @@ int main(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+    //initialize board ID pin
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    GPIO_InitStruct.Pin = GPIO_PIN_9;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FAST;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    //determine if board is master or slave
+    if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_9) == GPIO_PIN_RESET)
+        board = SLAVE_BOARD;
+    else
+        board = MASTER_BOARD;
+
     term_init();
-    print("KBKB Terminal Initialized\r\n");
+    print("KBKB v00.00.05\r\n");
+
+    if(board == SLAVE_BOARD)
+        print("Slave Keyboard");
+    else
+        print("Master Keyboard");
+    print("\r\n");
+
     HAL_Delay(2000);
 
-    MX_USB_DEVICE_Init();
+    if(board == MASTER_BOARD)
+        MX_USB_DEVICE_Init();
 
     keys_init();
+
+    b2b_comm_init();
 
     i = 0;
     j = 0;
@@ -45,9 +81,17 @@ int main(void)
     while (1)
     {
         keys_scan();
+        b2b_send_pend_msg();
+        b2b_check_for_msg();
+
         if(i >= 10) {
-            keys_translate(keys);
-            usb_send(keys, 8);
+            if(board == SLAVE_BOARD) {
+                b2b_comm_send_keys();
+            }
+            else {
+                keys_translate(keys);
+                usb_send(keys, 8);
+            }
             i = 0;
         }
 
