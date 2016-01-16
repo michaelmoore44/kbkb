@@ -62,7 +62,7 @@ static bool     msg_len_valid;
 uint8_t* prev_keys_buf[NUM_KEY_BYTES];
 
 
-void USART2_IRQHandler (void)
+void USART3_IRQHandler (void)
 {
 	//check if tx interrupt is active - check TXE == 1
 	if(Uart_Handle.Instance->SR & USART_SR_TXE)
@@ -392,7 +392,7 @@ void b2b_comm_init(void)
     rx_buf.size = RX_BUF_SIZE;
     buffer_init(&rx_buf);
 
-    Uart_Handle.Instance          = USART2;
+    Uart_Handle.Instance          = USART3;
 
     Uart_Handle.Init.BaudRate     = 115200;
     Uart_Handle.Init.WordLength   = UART_WORDLENGTH_8B;
@@ -404,43 +404,8 @@ void b2b_comm_init(void)
 
     HAL_UART_Init(&Uart_Handle);
 
-//    uint16_t i;
-//    HAL_Delay(5000);
-//    while(1) {
-//        //send data
-//        if(Uart_Handle.Instance->SR & USART_SR_TXE) {
-//            //send data
-//            Uart_Handle.Instance->DR = 'A';
-//            Uart_Handle.Instance->SR &= ~USART_SR_TXE;
-//        }
-//
-//        for(i = 0; i < 1000; i ++) {
-//            //wait for received data
-//            if(Uart_Handle.Instance->SR & USART_SR_RXNE)
-//            {
-//                print("%c\r\n", (uint8_t)Uart_Handle.Instance->DR);
-//            }
-//            HAL_Delay(1);
-//        }
-//    }
-
-
     //enable interrupts
     Uart_Handle.Instance->CR1 |= (USART_CR1_TXEIE | USART_CR1_RXNEIE);
-
-//    uint8_t buf[] = {'A', 'B'};
-//    uint8_t in_buf[2];
-//    uint16_t i;
-//
-//    HAL_Delay(1000);
-//    while(1) {
-//        b2b_comm_puts (buf, 2);
-//        for(i = 0; i < 1000; i++) {
-//            HAL_Delay(1);
-//            if(b2b_comm_getchar(in_buf) == OK)
-//                print("%c\r\n", in_buf[0]);
-//        }
-//    }
 }
 
 

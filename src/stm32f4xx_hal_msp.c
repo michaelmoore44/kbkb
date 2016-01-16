@@ -95,30 +95,30 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
         HAL_NVIC_SetPriority(USART1_IRQn, 0, 1);
         HAL_NVIC_EnableIRQ(USART1_IRQn);
     }
-    else if(huart->Instance == USART2) {
-        __HAL_RCC_GPIOA_CLK_ENABLE();
+    else if(huart->Instance == USART3) {
+        __HAL_RCC_GPIOC_CLK_ENABLE();
 
         /* Enable USARTx clock */
-        __HAL_RCC_USART2_CLK_ENABLE();
+        __HAL_RCC_USART3_CLK_ENABLE();
 
         /* UART TX GPIO pin configuration  */
         GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull      = GPIO_NOPULL;
         GPIO_InitStruct.Speed     = GPIO_SPEED_HIGH;
-        GPIO_InitStruct.Pin       = GPIO_PIN_2;
-        GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
-        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+        GPIO_InitStruct.Pin       = GPIO_PIN_10;
+        GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+        HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
         /* UART RX GPIO pin configuration  */
         GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
         GPIO_InitStruct.Pull      = GPIO_NOPULL;
         GPIO_InitStruct.Speed     = GPIO_SPEED_HIGH;
-        GPIO_InitStruct.Pin       = GPIO_PIN_3;
-        GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
-        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+        GPIO_InitStruct.Pin       = GPIO_PIN_11;
+        GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+        HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-        HAL_NVIC_SetPriority(USART2_IRQn, 0, 1);
-        HAL_NVIC_EnableIRQ(USART2_IRQn);
+        HAL_NVIC_SetPriority(USART3_IRQn, 0, 1);
+        HAL_NVIC_EnableIRQ(USART3_IRQn);
     }
 }
 
