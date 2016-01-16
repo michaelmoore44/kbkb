@@ -176,9 +176,10 @@ void b2b_send_pend_msg(void)
 {
     if(msg_to_be_sent(out_buf[read].status)) {
         b2b_comm_puts(out_buf[read].buf, out_buf[read].len);
-        print("\r\nMessage Sent\r\n");
-        b2b_print_msg(out_buf[read].buf, out_buf[read].len);
+        //print("\r\nMessage Sent\r\n");
+        //b2b_print_msg(out_buf[read].buf, out_buf[read].len);
         out_buf[read].status++;
+        out_buf[read].status = MSG_STATUS_DONE;
     }
 
     //if the message that was just sent was not an ACK or NACK and if
@@ -192,7 +193,8 @@ void b2b_send_pend_msg(void)
         }
     }
     //if the message that was just sent was an ack or a nack and if
-    // the current message is done
+    // the current message is done and there is a message in the write buffer
+    // then change over to the write buffer
     else if((out_buf[read].buf[2] == MSG_ACK)   ||
              (out_buf[read].buf[2] == MSG_NACK)) {
         if(out_buf[read].status == MSG_STATUS_DONE &&
@@ -209,13 +211,9 @@ void b2b_send_pend_msg(void)
  *                1 byte  - checksum*/
 static void b2b_comm_put_msg_in_queue(uint8_t* buf, uint8_t len)
 {
-    if(out_buf[!read].len == 0) {
-        memcpy(out_buf[!read].buf, buf, len);
-        out_buf[!read].len = len;
-        out_buf[!read].status = MSG_STATUS_TO_SEND;
-    }
-    else
-        print("no empty buffer for message\r\n");
+    memcpy(out_buf[!read].buf, buf, len);
+    out_buf[!read].len = len;
+    out_buf[!read].status = MSG_STATUS_TO_SEND;
 }
 
 
@@ -261,7 +259,7 @@ static void b2b_send_nack(void)
 }
 
 
-void b2b_comm_send_keys(void)
+void b2b_comm_send_keys(bool force)
 {
     int val;
     uint8_t buf[NUM_KEY_BYTES + 4];
@@ -269,7 +267,7 @@ void b2b_comm_send_keys(void)
     keys_get_keys(&buf[3]);
 
     val =  memcmp(&buf[3], prev_keys_buf, NUM_KEY_BYTES);
-    if(val) {
+    if(val || force) {
         msg_buf_tx[2] = MSG_KEYS;
         memcpy(&msg_buf_tx[3], &buf[3], NUM_KEY_BYTES);
         b2b_send_msg(msg_buf_tx, NUM_KEY_BYTES + 1);
@@ -335,7 +333,7 @@ void b2b_check_for_msg(void)
                 //so the number of overhead bytes must be added to the payload
                 msg_len = msg_buf[0] + 3;
                 msg_len_valid = TRUE;
-                print("\r\nFound Header - index: %d", msg_idx);
+                //print("\r\nFound Header - index: %d", msg_idx);
             }
             else { //start over
                 temp = (uint8_t) ~msg_buf[0];
@@ -348,14 +346,14 @@ void b2b_check_for_msg(void)
 
         //check for end of message
         if((msg_len_valid == TRUE) && (msg_idx == msg_len)) {
-            print("\r\nMessage Received:\r\n\t");
-            b2b_print_msg(msg_buf, msg_len);
+            //print("\r\nMessage Received:\r\n\t");
+            //b2b_print_msg(msg_buf, msg_len);
             if(checksum8(&msg_buf[2], msg_len - 2) == OK) {
                 //valid message received
-                print("\tChecksum Ok\r\n");
+                //print("\tChecksum Ok\r\n");
                 b2b_process_msg(msg_buf, msg_len);
                 if((msg_buf[2] != MSG_ACK) && (msg_buf[2] != MSG_NACK)) {
-                    print("\r\nSending ack");
+                    //print("\r\nSending ack");
                     b2b_send_ack();
                 }
                 msg_idx = 0;

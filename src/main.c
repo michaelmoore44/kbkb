@@ -26,6 +26,7 @@ int main(void)
     uint8_t keys[8];
     uint8_t i;
     uint32_t j;
+    uint32_t k;
 
     /* Configure the system clock to 84 MHz */
     SystemClock_Config();
@@ -57,7 +58,7 @@ int main(void)
         board = MASTER_BOARD;
 
     term_init();
-    print("KBKB v00.00.05\r\n");
+    print("KBKB v00.00.06\r\n");
 
     if(board == SLAVE_BOARD)
         print("Slave Keyboard");
@@ -76,6 +77,7 @@ int main(void)
 
     i = 0;
     j = 0;
+    k = 0;
 
     /* -3- Toggle PA05 IO in an infinite loop */
     while (1)
@@ -86,13 +88,20 @@ int main(void)
 
         if(i >= 10) {
             if(board == SLAVE_BOARD) {
-                b2b_comm_send_keys();
+                b2b_comm_send_keys(FALSE);
             }
             else {
                 keys_translate(keys);
                 usb_send(keys, 8);
             }
             i = 0;
+        }
+
+        if(k >= 200) {
+            if(board == SLAVE_BOARD) {
+                b2b_comm_send_keys(TRUE);
+            }
+            k = 0;
         }
 
         if(j >= 1000) {
@@ -103,6 +112,7 @@ int main(void)
         HAL_Delay(1);
         ++i;
         ++j;
+        ++k;
     }
 }
 
