@@ -222,7 +222,7 @@ static uint8_t get_checksum8(uint8_t* buf, uint8_t len)
     uint8_t i;
     uint8_t cksum = buf[0];
 
-    for(i = 1; i < (len - 1); i++) {
+    for(i = 1; i < len; i++) {
         cksum += buf[i];
     }
 
@@ -291,7 +291,7 @@ static void b2b_process_msg(uint8_t* buf, uint8_t len)
             break;
 
         case MSG_NACK:
-            out_buf[read].status++;
+            out_buf[read].status = MSG_STATUS_DONE;
             break;
 
         default:
@@ -361,12 +361,13 @@ void b2b_check_for_msg(void)
             }
             else {
                 print("\tChecksum Bad\r\n");
+                print("\r\nMessage Received:\r\n\t");
+                b2b_print_msg(msg_buf, msg_len);
                 if((msg_buf[2] != MSG_ACK) && (msg_buf[2] != MSG_NACK)) {
                     print("\r\nSending nack");
                     b2b_send_nack();
                 }
                 //send a nack and start over
-                msg_buf[0] = msg_buf[1];
                 msg_idx = 0;
                 msg_len_valid = FALSE;
                 bad_b2b_message_count++;
