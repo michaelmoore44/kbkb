@@ -259,8 +259,9 @@ static void b2b_send_nack(void)
 }
 
 
-void b2b_comm_send_keys(bool force)
+bool b2b_comm_send_keys(bool force)
 {
+    bool ret_val = FALSE;
     int val;
     uint8_t buf[NUM_KEY_BYTES + 4];
 
@@ -272,7 +273,10 @@ void b2b_comm_send_keys(bool force)
         memcpy(&msg_buf_tx[3], &buf[3], NUM_KEY_BYTES);
         b2b_send_msg(msg_buf_tx, NUM_KEY_BYTES + 1);
         memcpy(prev_keys_buf, &buf[3], NUM_KEY_BYTES);
+        ret_val = TRUE;
     }
+
+    return ret_val;
 }
 
 

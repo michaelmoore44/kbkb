@@ -86,18 +86,20 @@ int main(void)
         b2b_send_pend_msg();
         b2b_check_for_msg();
 
+        if(board == SLAVE_BOARD) {
+            if(b2b_comm_send_keys(FALSE) == TRUE)
+                k = 0;
+        }
+
         if(i >= 10) {
-            if(board == SLAVE_BOARD) {
-                b2b_comm_send_keys(FALSE);
-            }
-            else {
+            if(board == MASTER_BOARD) {
                 keys_translate(keys);
                 usb_send(keys, 8);
             }
             i = 0;
         }
 
-        if(k >= 200) {
+        if(k >= 1233) {
             if(board == SLAVE_BOARD) {
                 b2b_comm_send_keys(TRUE);
             }
