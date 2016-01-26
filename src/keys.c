@@ -280,7 +280,7 @@ void keys_scan(void) {
         read = keys_read_pin(i);
         if(keys[i].state != read) {
             keys[i].count++;
-            if(keys[i].count > 10) {
+            if(keys[i].count > 4) {
                 keys[i].state = read;
                 keys[i].count = 0;
             }
