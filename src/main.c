@@ -58,7 +58,7 @@ int main(void)
         board = MASTER_BOARD;
 
     term_init();
-    print("KBKB v00.00.16\r\n");
+    print("KBKB v00.00.18\r\n");
 
     if(board == SLAVE_BOARD)
         print("Slave Keyboard");
@@ -97,6 +97,12 @@ int main(void)
                 usb_send(keys, 8);
             }
             i = 0;
+        }
+
+        if(k == 23) {
+            if(board == SLAVE_BOARD) {
+                b2b_comm_send_keys(TRUE);
+            }
         }
 
         if(k >= 1233) {
