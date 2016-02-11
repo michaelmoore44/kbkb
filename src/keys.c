@@ -6,6 +6,8 @@
 
 static GPIO_InitTypeDef  GPIO_InitStruct;
 
+bool keys_are_received = FALSE;
+bool slave_present = FALSE;
 
 typedef struct
 {
@@ -296,6 +298,9 @@ void keys_received(uint8_t* buf, uint8_t len)
     uint8_t byte;
     uint8_t bit;
 
+    keys_are_received = TRUE;
+    slave_present = TRUE;
+
     for(i = 0; i < NUM_SUB_KEYS; i++) {
         byte = i / 8;
         bit = i % 8;
@@ -304,6 +309,18 @@ void keys_received(uint8_t* buf, uint8_t len)
         else
             sub_keys[i].state = KEY_INACTIVE;
     }
+}
+
+bool keys_were_received(void)
+{
+    bool retVal = FALSE;
+
+    if((keys_are_received == TRUE) || (slave_present ==  FALSE))
+        retVal = TRUE;
+
+    keys_are_received = FALSE;
+
+    return retVal;
 }
 
 

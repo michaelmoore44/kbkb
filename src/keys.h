@@ -9,6 +9,7 @@
 void keys_init(void);
 void keys_scan(void);
 void keys_received(uint8_t* buf, uint8_t len);
+bool keys_were_received(void);
 void keys_get_keys(uint8_t* buf);
 void keys_translate(uint8_t* buf);
 

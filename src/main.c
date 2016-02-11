@@ -11,6 +11,7 @@ static void SystemClock_Config(void);
 static void Error_Handler(void);
 
 USBD_HandleTypeDef USBD_Device;
+IWDG_HandleTypeDef IwdgHandle;
 
 enum {
     BOARD_NONE,
@@ -27,6 +28,7 @@ int main(void)
     uint8_t i;
     uint32_t j;
     uint32_t k;
+    uint32_t l;
 
     /* Configure the system clock to 84 MHz */
     SystemClock_Config();
@@ -58,15 +60,13 @@ int main(void)
         board = MASTER_BOARD;
 
     term_init();
-    print("KBKB v00.00.18\r\n");
+    print("KBKB v00.00.19\r\n");
 
     if(board == SLAVE_BOARD)
         print("Slave Keyboard");
     else
         print("Master Keyboard");
     print("\r\n");
-
-    HAL_Delay(2000);
 
     if(board == MASTER_BOARD)
         MX_USB_DEVICE_Init();
@@ -78,13 +78,48 @@ int main(void)
     i = 0;
     j = 0;
     k = 0;
+    l = 0;
 
-    /* -3- Toggle PA05 IO in an infinite loop */
+
+    /*##-3- Configure the IWDG peripheral ######################################*/
+    /* Set counter reload value to obtain 250ms IWDG TimeOut.
+       IWDG counter clock Frequency = LsiFreq / 32
+       Counter Reload Value = 250ms / IWDG counter clock period
+                            = 0.25s / (32/LsiFreq)
+                            = LsiFreq / (32 * 4)
+                            = LsiFreq / 128 */
+    IwdgHandle.Instance = IWDG;
+
+    IwdgHandle.Init.Prescaler = IWDG_PRESCALER_32;
+    //17000 below is the worst case for the lsi clock
+    IwdgHandle.Init.Reload    = 17000 / 128;
+
+    if (HAL_IWDG_Init(&IwdgHandle) != HAL_OK)
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /*##-4- Start the IWDG #####################################################*/
+    if (HAL_IWDG_Start(&IwdgHandle) != HAL_OK)
+    {
+        Error_Handler();
+    }
+
     while (1)
     {
+        HAL_IWDG_Refresh(&IwdgHandle);
+
         keys_scan();
         b2b_send_pend_msg();
         b2b_check_for_msg();
+        if(keys_were_received()){
+            l = 0;
+        }
+        if((board == MASTER_BOARD) && (l > 600)){
+            //if no keys have been received by the master trip the watchdog
+            while(1);
+        }
 
         if(board == SLAVE_BOARD) {
             if(b2b_comm_send_keys(FALSE) == TRUE)
@@ -105,7 +140,7 @@ int main(void)
             }
         }
 
-        if(k >= 1233) {
+        if(k >= 233) {
             if(board == SLAVE_BOARD) {
                 b2b_comm_send_keys(TRUE);
             }
@@ -121,6 +156,7 @@ int main(void)
         ++i;
         ++j;
         ++k;
+        ++l;
     }
 }
 

@@ -55,6 +55,7 @@ SRC += ./src/stm32f4xx_hal_msp.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_cortex.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_gpio.c
+SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_iwdg.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_rcc.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_uart.c
 SRC += ./src/stm32f4xx_hal_driver/stm32f4xx_hal_dma.c
