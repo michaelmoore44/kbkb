@@ -60,7 +60,7 @@ int main(void)
         board = MASTER_BOARD;
 
     term_init();
-    print("KBKB v00.00.19\r\n");
+    print("KBKB v00.00.20\r\n");
 
     if(board == SLAVE_BOARD)
         print("Slave Keyboard");
