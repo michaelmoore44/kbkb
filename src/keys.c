@@ -188,7 +188,7 @@ keys_t keys[NUM_KEYS] = {
     [KEY_F2] = {GPIOC, GPIO_PIN_4,  BEHAVIOR_NORM, KC_U,        KC_HOME},
     [KEY_F3] = {GPIOC, GPIO_PIN_3,  BEHAVIOR_NORM, KC_J,        KC_DOWN},
     [KEY_F4] = {GPIOC, GPIO_PIN_2,  BEHAVIOR_NORM, KC_M,        KC_NO},
-    [KEY_F5] = {GPIOC, GPIO_PIN_1,  BEHAVIOR_MOD,  MOD_RGUI,    KC_NO},
+    [KEY_F5] = {GPIOC, GPIO_PIN_1,  BEHAVIOR_NORM, KC_NO,       KC_NO},
     [KEY_G1] = {GPIOC, GPIO_PIN_0,  BEHAVIOR_NORM, KC_6,        KC_F6},
     [KEY_G2] = {GPIOC, GPIO_PIN_15, BEHAVIOR_NORM, KC_Y,        KC_NO},
     [KEY_G3] = {GPIOC, GPIO_PIN_14, BEHAVIOR_NORM, KC_H,        KC_LEFT},
@@ -237,8 +237,8 @@ sub_keys_t sub_keys[NUM_SUB_KEYS] = {
     [KEY_H1S] = {BEHAVIOR_NORM, KC_NO,     KC_NO},
     [KEY_H2S] = {BEHAVIOR_NORM, KC_NO,     KC_NO},
     [KEY_H3S] = {BEHAVIOR_NORM, KC_NO,     KC_NO},
-    [KEY_H4S] = {BEHAVIOR_MOD,  MOD_LSH,   KC_NO},
-    [KEY_I1S] = {BEHAVIOR_FN,   KC_NO,     KC_NO},
+    [KEY_H4S] = {BEHAVIOR_FN,   KC_NO,     KC_NO},
+    [KEY_I1S] = {BEHAVIOR_MOD,  MOD_LSH,   KC_NO},
     [KEY_J1S] = {BEHAVIOR_MOD,  MOD_LALT,  KC_NO},
 };
 
