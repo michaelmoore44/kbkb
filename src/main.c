@@ -29,6 +29,7 @@ int main(void)
     uint32_t j;
     uint32_t k;
     uint32_t l;
+    uint32_t tickprev;
 
     /* Configure the system clock to 84 MHz */
     SystemClock_Config();
@@ -106,57 +107,65 @@ int main(void)
         Error_Handler();
     }
 
+    tickprev = HAL_GetTick();
+
     while (1)
     {
-        HAL_IWDG_Refresh(&IwdgHandle);
-
-        keys_scan();
         b2b_send_pend_msg();
         b2b_check_for_msg();
-        if(keys_were_received()){
-            l = 0;
-        }
-        if((board == MASTER_BOARD) && (l > 600)){
-            //if no keys have been received by the master trip the watchdog
-            while(1);
-        }
 
-        if(board == SLAVE_BOARD) {
-            if(b2b_comm_send_keys(FALSE) == TRUE)
+        if((HAL_GetTick() - tickprev) >= 1)
+        {
+        	tickprev = HAL_GetTick();
+
+            HAL_IWDG_Refresh(&IwdgHandle);
+
+            keys_scan();
+
+            if(keys_were_received()){
+                l = 0;
+            }
+            if((board == MASTER_BOARD) && (l > 600)){
+                //if no keys have been received by the master trip the watchdog
+                while(1);
+            }
+
+            if(board == SLAVE_BOARD) {
+                if(b2b_comm_send_keys(FALSE) == TRUE)
+                    k = 0;
+            }
+
+            if(i >= 10) {
+                if(board == MASTER_BOARD) {
+                    keys_translate(keys);
+                    usb_send(keys, 8);
+                }
+                i = 0;
+            }
+
+            if(k == 23) {
+                if(board == SLAVE_BOARD) {
+                    b2b_comm_send_keys(TRUE);
+                }
+            }
+
+            if(k >= 233) {
+                if(board == SLAVE_BOARD) {
+                    b2b_comm_send_keys(TRUE);
+                }
                 k = 0;
-        }
-
-        if(i >= 10) {
-            if(board == MASTER_BOARD) {
-                keys_translate(keys);
-                usb_send(keys, 8);
             }
-            i = 0;
-        }
 
-        if(k == 23) {
-            if(board == SLAVE_BOARD) {
-                b2b_comm_send_keys(TRUE);
+            if(j >= 1000) {
+                HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_4);
+                j = 0;
             }
-        }
 
-        if(k >= 233) {
-            if(board == SLAVE_BOARD) {
-                b2b_comm_send_keys(TRUE);
-            }
-            k = 0;
+            ++i;
+            ++j;
+            ++k;
+            ++l;
         }
-
-        if(j >= 1000) {
-            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_4);
-            j = 0;
-        }
-
-        HAL_Delay(1);
-        ++i;
-        ++j;
-        ++k;
-        ++l;
     }
 }
 
